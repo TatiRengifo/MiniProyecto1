@@ -13,6 +13,12 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         while(true){
             System.out.println("----------Menu de usuarios---------");
+
+
+
+
+
+            
             
 
 
@@ -26,7 +32,8 @@ public class App {
 
 
 
-            
+
+
             System.out.println("1. Agregar clientes");
             System.out.println("2. Listar clientes");
             System.out.println("3. Buscar clientes");
