@@ -25,6 +25,7 @@ public class App {
             switch (opc) {
                 case 1:agregar_cliente(usuarios);break;
                 case 2:listar_clientes(usuarios);break;
+                case 3:buscar_cliente(usuarios);break;
                 case 0:System.out.println("Salida del programa");return;
                     
             
@@ -49,7 +50,10 @@ public class App {
         System.out.print("Ingrese su fecha de creacion: ");
         int fecha_creacion = scanner2.nextInt();
 
-        Cliente client = new Cliente(nombre, cedula, nivel_ingresos, fecha_creacion);
+        System.out.print("Ingrese su saldo: ");
+        int saldo = scanner2.nextInt(); 
+
+        Cliente client = new Cliente(nombre, cedula, nivel_ingresos, fecha_creacion, saldo);
         usuarios.add(client);  
         System.out.println("Cliente agregado exitosamente!");
     }
@@ -64,25 +68,40 @@ public class App {
 
         }
     }
-}
 
-/*public void menu(){
-    int opc;
-    do{
-        System.out.println("1. Insertar usuario");
-        System.out.println("2. Listar usuarios");
-        System.out.println("3. eliminar dinero");
-        switch (opc) {
-            case 1: registrar_cliente(); break;
-            case 2:; break;
-            case 3:; break;
-            case 4:; break;
-        
-            default:
-                System.out.println("Ingrese un valor valido");
-                break;
+    private static int buscar_cliente_nombre(ArrayList<Cliente> usuarios, String nombre){
+        for(int i = 0; i < usuarios.size(); i++){
+            Cliente usuario = usuarios.get(i);
+            System.out.println("Buscando cliente por su nombre: " + nombre);
+
+            if(usuario.getNombre().equals(nombre)){
+                return i;
+            }
         }
+        return -1;
+    }
 
-    }while(opc!=0);
+        public static void buscar_cliente(ArrayList<Cliente> usuarios){
+            Scanner scanner2 = new Scanner(System.in);
+    
+            System.out.println("Ingrese su nombre: ");
+            String nombre = scanner2.nextLine();
+    
+            int indice_cliente = buscar_cliente_nombre(usuarios, nombre);
+    
+            System.out.println("Este es el indice: " + indice_cliente);
+    
+            if(indice_cliente != -1) {
+                System.out.println("Nombre: " + nombre);
+                System.out.println("Saldo: " + usuarios.get(indice_cliente).getSaldo() );
+                
+                //usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo());
+            } else{
+                System.out.println("\nCliente no encontrado");
+            }
+            
+        }    
+    
+
 }
-*/
+
