@@ -10,6 +10,15 @@ public class App {
         menu(usuarios);
     }
     private static void menu(ArrayList<Cliente> usuarios){
+        
+
+
+
+
+
+
+
+        
         Scanner scanner = new Scanner(System.in);
         while(true){
             System.out.println("----------Menu de usuarios---------");
