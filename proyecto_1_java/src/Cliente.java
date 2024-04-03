@@ -3,16 +3,18 @@ public class Cliente {
     private String cedula;
     private int nivel_ingresos;
     private int fecha_creacion;
+    private int saldo;
 
     public Cliente(){
 
     }
 
-    public Cliente(String nombre, String cedula, int nivel_ingresos, int fecha_creacion){
+    public Cliente(String nombre, String cedula, int nivel_ingresos, int fecha_creacion, int saldo){
         this.nombre = nombre;
         this.cedula = cedula;
         this.nivel_ingresos = nivel_ingresos;
         this.fecha_creacion = fecha_creacion;
+        this.saldo = saldo;
     }
     
     public String getNombre() {
@@ -47,6 +49,13 @@ public class Cliente {
         this.fecha_creacion = fecha_creacion;
     }
 
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
 
 
 }
