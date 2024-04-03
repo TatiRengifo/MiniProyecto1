@@ -26,6 +26,8 @@ public class App {
                 case 1:agregar_cliente(usuarios);break;
                 case 2:listar_clientes(usuarios);break;
                 case 3:buscar_cliente(usuarios);break;
+                case 4:eliminar_saldo(usuarios);break;
+                case 5:buscar_cliente(usuarios);break;
                 case 0:System.out.println("Salida del programa");return;
                     
             
@@ -68,6 +70,71 @@ public class App {
 
         }
     }
+
+    public static void agregar_saldo(ArrayList<Cliente> usuarios){
+        Scanner scanner2 = new Scanner(System.in);
+
+        System.out.println("Ingrese su cedula: ");
+        String cedula = scanner2.nextLine();
+
+        int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
+
+        System.out.println("Este es el indice: " + indice_cliente);
+
+        if(indice_cliente != -1) {
+            System.out.println("Ingrese su saldo a añadir: ");
+            int nuevo_saldo = scanner2.nextInt();
+            
+            usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() + nuevo_saldo);
+            System.out.println("Saldo agregado correctamente");
+        } else{
+            System.out.println("\nCliente no encontrado");
+        }
+    
+    }
+
+    public static void  eliminar_saldo(ArrayList<Cliente> usuarios){
+        Scanner scanner2 = new Scanner(System.in);
+
+        System.out.println("Ingrese su cedula: ");
+        String cedula = scanner2.nextLine();
+
+        int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
+
+        System.out.println("Este es el indice: " + indice_cliente);
+
+        if(indice_cliente != -1) {
+            System.out.println("Ingrese el saldo a eliminar: ");
+            int nuevo_saldo = scanner2.nextInt();
+            if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
+                usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
+                System.out.println("\nSaldo eliminado correctamente");
+            }else{
+                System.out.println("No tienes tanto dinero");
+            }
+        } else{
+            System.out.println("\nCliente no encontrado");
+        }
+
+    }
+
+
+
+
+
+
+    private static int buscar_cliente_cedula(ArrayList<Cliente> usuarios, String cedula){
+        for(int i = 0; i < usuarios.size(); i++){
+            Cliente usuario = usuarios.get(i);
+            System.out.println("Buscando el cliente con cedula: "+ cedula);
+
+            if(usuario.getCedula().equals(cedula)){
+                return i;
+            } 
+        }  
+        return -1;
+    }
+
 
     private static int buscar_cliente_nombre(ArrayList<Cliente> usuarios, String nombre){
         for(int i = 0; i < usuarios.size(); i++){
