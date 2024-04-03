@@ -56,6 +56,7 @@ public class App {
     }
 }
 
+
 /*ArrayList<Cliente> lista = new ArrayList<Cliente>();
 
 Scanner scanner = new Scanner(System.in);
