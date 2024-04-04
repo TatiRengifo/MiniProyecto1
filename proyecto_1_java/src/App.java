@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 
 
+
+
+
 public class App {
     //Cliente clien = new Cliente();
     public static void main(String[] args) throws Exception {
@@ -35,6 +38,7 @@ public class App {
                 case 4:eliminar_saldo(usuarios);break;
                 case 5:buscar_cliente(usuarios);break;
                 case 6:prestamo(usuarios);break;
+                case 7:solicitar_CDT(usuarios);break;
 
                 case 0:System.out.println("Salida del programa");return;
                     
@@ -56,29 +60,10 @@ public class App {
         int fecha_creacion = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su fecha de creacion"));
     
         int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
-        // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
+       
 
-        int duracionCDT = Integer.parseInt(JOptionPane.showInputDialog(null,"Seleccione la duración del CDT (3 o 6 meses)"));
-        // Determinar la tasa de interés anual según la duración del CDT seleccionada
-    
-        double interesAnual;
-        if (duracionCDT == 3) {
-            interesAnual = 0.03; // 3%
-        } else if (duracionCDT == 6) {
-            interesAnual = 0.05; // 5%
-        // Si la duración seleccionada no es válida, mostrar un mensaje de error y salir del programa
-        } else {
-            System.out.println("Duración inválida. Por favor seleccione 3 o 6 meses.");
-            return;
-        }
-        // Convertir la duración del CDT de meses a años para calcular el interés total
-        double duracionEnAnios = duracionCDT / 12.0;
-        // Calcular el interés total ganado
-        double interestotal = saldo * interesAnual * duracionEnAnios;
-        // Mostrar el interés total ganado después de la duración del CDT seleccionada
-        System.out.println("El interés total ganado después de " + duracionCDT + " meses es: " + interestotal);
-        
-        Cliente client = new Cliente(nombre,cedula,nivel_ingresos,fecha_creacion,saldo,duracionCDT,duracionEnAnios,interestotal);
+   
+        Cliente client = new Cliente(nombre,cedula,nivel_ingresos,fecha_creacion,saldo);
         usuarios.add(client);  
         System.out.println("\nCliente agregado exitosamente!");
     }
@@ -220,6 +205,45 @@ public class App {
     
             
         }
+
+        public static void solicitar_CDT(ArrayList<Cliente> usuarios){
+
+
+            String nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
+    
+            String cedula =JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
+        
+            int nivel_ingresos = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su nivel de ingresos"));
+            
+            int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
+            // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
+        
+            int duracionCDT = Integer.parseInt(JOptionPane.showInputDialog(null,"Seleccione la duración del CDT (3 o 6 meses)"));
+            // Determinar la tasa de interés anual según la duración del CDT seleccionada
+            
+            double interesAnual = 0;
+            if (duracionCDT == 3) {
+                interesAnual = 0.03; // 3%
+            } else if (duracionCDT == 6) {
+                interesAnual = 0.05; // 5%
+            // Si la duración seleccionada no es válida, mostrar un mensaje de error y salir del programa
+            } else {
+                System.out.println("Duración inválida. Por favor seleccione 3 o 6 meses.");
+            }
+            // Convertir la duración del CDT de meses a años para calcular el interés total
+            double duracionEnAnios = duracionCDT / 12.0;
+            // Calcular el interés total ganado
+            double interestotal = saldo * interesAnual * duracionEnAnios;
+            // Mostrar el interés total ganado después de la duración del CDT seleccionada
+            System.out.println("El interés total ganado después de " + duracionCDT + " meses es: " + interestotal);
+
+
+
+        }
+
+
+
+
 
 }
 
