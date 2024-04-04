@@ -2,19 +2,27 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 
+//La clase App es la clase principal que contiene el método main y gestiona la interacción con el usuario.
 
 public class App {
-    //Cliente clien = new Cliente();
+
+    //Método principal que inicia la aplicación.
     public static void main(String[] args) throws Exception {
+        // Crear un ArrayList para almacenar clientes
         ArrayList<Cliente> usuarios = new ArrayList<>();
 
-        menu(usuarios);
+        menu(usuarios); // Llamar al método menu para mostrar el menú de opciones al usuario
+
     }
+    //Método que muestra el menú de opciones y gestiona la interacción del usuario.
     private static void menu(ArrayList<Cliente> usuarios){
 
         Scanner scanner = new Scanner(System.in);
 
+        // Bucle infinito para mantener el menú activo hasta que el usuario decida salir
         while(true){
+
+            // Mostrar opciones del menú
             System.out.println("\n----------Menu de usuarios---------");
             System.out.println("1. Agregar clientes");
             System.out.println("2. Listar clientes");
@@ -41,6 +49,7 @@ public class App {
         }
     }
 
+    // Método que agrega un cliente al ArrayList de usuarios.
     private static void agregar_cliente(ArrayList<Cliente> usuarios){
         Scanner scanner = new Scanner(System.in);
 
@@ -50,7 +59,8 @@ public class App {
 
         System.out.print("Ingrese su cedula: ");
         String cedula = scanner.nextLine();
-                
+
+        // Verificar si la cédula ya está en uso antes de agregar el cliente
         boolean cedulaExistente = false;
         for (Cliente usuario : usuarios) {
             if (usuario.getCedula().equals(cedula)){
@@ -59,6 +69,7 @@ public class App {
             }
         }
 
+        // Si la cédula ya está en uso, mostrar mensaje de error, de lo contrario, agregar el cliente
         if (cedulaExistente){
             System.out.println("La cedula ya esta en uso. No se puede agregar el cliente");
         
@@ -71,7 +82,8 @@ public class App {
     
             System.out.print("Ingrese su saldo: ");
             int saldo = scanner.nextInt(); 
-    
+
+            // Crear un nuevo cliente y agregarlo al ArrayList de usuarios
             Cliente client = new Cliente(nombre, cedula, nivel_ingresos, fecha_creacion, saldo);
             usuarios.add(client);  
             System.out.println("\nCliente agregado exitosamente!");
@@ -79,6 +91,7 @@ public class App {
         }
     }
 
+    // Método que permite agregar saldo al ArrayList.
     public static void agregar_saldo(ArrayList<Cliente> usuarios){
         Scanner scanner2 = new Scanner(System.in);
 
@@ -99,6 +112,7 @@ public class App {
     
     }
 
+    // Método que permite eliminar saldo del ArrayList.
     public static void  eliminar_saldo(ArrayList<Cliente> usuarios){
         Scanner scanner2 = new Scanner(System.in);
 
@@ -109,6 +123,7 @@ public class App {
 
         System.out.println("Este es el indice: " + indice_cliente);
 
+        // Si el indice es igual a -1 eliminar saldo, de lo contrario mostrar un mensaje 
         if(indice_cliente != -1) {
             System.out.println("Ingrese el saldo a eliminar: ");
             int nuevo_saldo = scanner2.nextInt();
@@ -124,6 +139,7 @@ public class App {
 
     }
 
+    // Método que permite listar los clientes que esten alamcenados en el ArrayList.
     public static void listar_clientes(ArrayList<Cliente> usuarios){
         int x=1;
         for(Cliente usuario: usuarios){
@@ -136,6 +152,7 @@ public class App {
         }
     } 
 
+    // Método que permite buscar en el ArrayList un cliente por su cedula
     private static int buscar_cliente_cedula(ArrayList<Cliente> usuarios, String cedula){
         for(int i = 0; i < usuarios.size(); i++){
             Cliente usuario = usuarios.get(i);
@@ -148,6 +165,7 @@ public class App {
         return -1;
     }
 
+    // Método auxiliar que permite buscar en el ArrayList un cliente por su nombre
     private static int buscar_cliente_nombre(ArrayList<Cliente> usuarios, String nombre){
         for(int i = 0; i < usuarios.size(); i++){
             Cliente usuario = usuarios.get(i);
@@ -161,6 +179,7 @@ public class App {
 
     }
 
+    // Método que permite buscar en el ArrayList un cliente por su nombre
     public static void buscar_cliente(ArrayList<Cliente> usuarios){
         Scanner scanner2 = new Scanner(System.in);
 
@@ -178,31 +197,33 @@ public class App {
             System.out.println("\nCliente no encontrado");
         }
     }
-        public static void prestamo(ArrayList<Cliente> usuarios){
-            Scanner scanner2 = new Scanner(System.in);
 
-            System.out.println("Ingrese su cedula: ");
-            String cedula = scanner2.nextLine();
+    // Método que permite al cliente pedir un prestamo 
+    public static void prestamo(ArrayList<Cliente> usuarios){
+        Scanner scanner2 = new Scanner(System.in);
+
+        System.out.println("Ingrese su cedula: ");
+        String cedula = scanner2.nextLine();
     
-            int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
+        int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
     
     
-            if(indice_cliente != -1) {
-                System.out.println("Ingrese el la cantidad de dinero del prestamo: ");
-                int nuevo_saldo = scanner2.nextInt();
-                if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
-                    usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
-                    System.out.println("\nPrestamo enviado correctamente");
-                }else{
-                    System.out.println("No tienes tanto dinero");
-                }
-            } else{
-                System.out.println("\nCliente no encontrado");
+        if(indice_cliente != -1) {
+            System.out.println("Ingrese el la cantidad de dinero del prestamo: ");
+            int nuevo_saldo = scanner2.nextInt();
+            if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
+                usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
+                System.out.println("\nPrestamo enviado correctamente");
+            }else{
+                System.out.println("No tienes tanto dinero");
             }
+        } else{
+            System.out.println("\nCliente no encontrado");
+        }
     
             
-        }
     }
+}
 
     
 
