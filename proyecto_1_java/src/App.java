@@ -19,6 +19,9 @@ public class App {
             System.out.println("2. Listar clientes");
             System.out.println("3. Buscar clientes");
             System.out.println("4. Modificar cliente");
+            System.out.println("5. Buscar cliente por nombre y mostrar saldo");
+            System.out.println("6. Pedir un prestamo");
+
             System.out.println("0. Salir");
             System.out.println("Introduzca una opcion: ");
             int opc = scanner.nextInt();
@@ -28,6 +31,8 @@ public class App {
                 case 3:buscar_cliente(usuarios);break;
                 case 4:eliminar_saldo(usuarios);break;
                 case 5:buscar_cliente(usuarios);break;
+                case 6:prestamo(usuarios);break;
+
                 case 0:System.out.println("Salida del programa");return;
                     
             
@@ -92,6 +97,7 @@ public class App {
         }
     
     }
+
 
     public static void  eliminar_saldo(ArrayList<Cliente> usuarios){
         Scanner scanner2 = new Scanner(System.in);
@@ -168,7 +174,36 @@ public class App {
             }
             
         }    
+        public static void prestamo(ArrayList<Cliente> usuarios){
+            Scanner scanner2 = new Scanner(System.in);
+
+            System.out.println("Ingrese su cedula: ");
+            String cedula = scanner2.nextLine();
     
+            int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
+    
+    
+            if(indice_cliente != -1) {
+                System.out.println("Ingrese el la cantidad de dinero del prestamo: ");
+                int nuevo_saldo = scanner2.nextInt();
+                if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
+                    usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
+                    System.out.println("\nPrestamo enviado correctamente");
+                }else if (nuevo_saldo > usuarios.get(indice_cliente).getSaldo() && nuevo_saldo < (usuarios.get(indice_cliente).getSaldo() * 2) ) {
+                    int cantidad_cuotas = 6;
+                    double interes_mensual = 0.02 / 12;
+                    double cuota_mensual = nuevo_saldo * (interes_mensual * Math.pow(1 + interes_mensual, cantidad_cuotas)) / (Math.pow(1 + interes_mensual, cantidad_cuotas) - 1);
+                    System.out.println("El valor de tu cuota mensual será de: " + cuota_mensual);
+                    System.out.println("Tu préstamo se pagará en " + cantidad_cuotas + " cuotas mensuales.");
+                }else{
+                    System.out.println("No tienes tanto dinero");
+                }
+            } else{
+                System.out.println("\nCliente no encontrado");
+            }
+    
+            
+        }
 
 }
 
