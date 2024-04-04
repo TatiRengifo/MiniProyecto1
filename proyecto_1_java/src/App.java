@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 import java.util.ArrayList;
 
 
@@ -11,7 +14,6 @@ public class App {
     }
     private static void menu(ArrayList<Cliente> usuarios){
 
-        Scanner scanner = new Scanner(System.in);
 
         while(true){
             System.out.println("----------Menu de usuarios---------");
@@ -23,8 +25,8 @@ public class App {
             System.out.println("6. Pedir un prestamo");
 
             System.out.println("0. Salir");
-            System.out.println("Introduzca una opcion: ");
-            int opc = scanner.nextInt();
+            int opc = Integer.parseInt(JOptionPane.showInputDialog(null,"Introduzca una opcion: ","",1));
+
             switch (opc) {
                 case 1:agregar_cliente(usuarios);break;
                 case 2:listar_clientes(usuarios);break;
@@ -43,27 +45,43 @@ public class App {
     }
 
     private static void agregar_cliente(ArrayList<Cliente> usuarios){
-        Scanner scanner2 = new Scanner(System.in);
 
-        System.out.print("Ingrese su nombre: ");
-        String nombre = scanner2.nextLine();
+        String nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
 
-        System.out.print("Ingrese su cedula: ");
-        String cedula = scanner2.nextLine();
+        String cedula =JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
 
-        System.out.print("Ingrese su nivel de ingresos: ");
-        int nivel_ingresos = scanner2.nextInt();
+        int nivel_ingresos = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su nivel de ingresos"));
 
-        System.out.print("Ingrese su fecha de creacion: ");
-        int fecha_creacion = scanner2.nextInt();
+        int fecha_creacion = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su fecha de creacion"));
+    
+        int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
+        // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
 
-        System.out.print("Ingrese su saldo: ");
-        int saldo = scanner2.nextInt(); 
-
-        Cliente client = new Cliente(nombre, cedula, nivel_ingresos, fecha_creacion, saldo);
+        int duracionCDT = Integer.parseInt(JOptionPane.showInputDialog(null,"Seleccione la duración del CDT (3 o 6 meses)"));
+        // Determinar la tasa de interés anual según la duración del CDT seleccionada
+    
+        double interesAnual;
+        if (duracionCDT == 3) {
+            interesAnual = 0.03; // 3%
+        } else if (duracionCDT == 6) {
+            interesAnual = 0.05; // 5%
+        // Si la duración seleccionada no es válida, mostrar un mensaje de error y salir del programa
+        } else {
+            System.out.println("Duración inválida. Por favor seleccione 3 o 6 meses.");
+            return;
+        }
+        // Convertir la duración del CDT de meses a años para calcular el interés total
+        double duracionEnAnios = duracionCDT / 12.0;
+        // Calcular el interés total ganado
+        double interestotal = saldo * interesAnual * duracionEnAnios;
+        // Mostrar el interés total ganado después de la duración del CDT seleccionada
+        System.out.println("El interés total ganado después de " + duracionCDT + " meses es: " + interestotal);
+        
+        Cliente client = new Cliente(nombre,cedula,nivel_ingresos,fecha_creacion,saldo,duracionCDT,duracionEnAnios,interestotal);
         usuarios.add(client);  
-        System.out.println("Cliente agregado exitosamente!");
+        System.out.println("\nCliente agregado exitosamente!");
     }
+    
 
     public static void listar_clientes(ArrayList<Cliente> usuarios){
         int x=1;
@@ -77,18 +95,17 @@ public class App {
     }
 
     public static void agregar_saldo(ArrayList<Cliente> usuarios){
-        Scanner scanner2 = new Scanner(System.in);
+        String cedula = JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
 
-        System.out.println("Ingrese su cedula: ");
-        String cedula = scanner2.nextLine();
 
         int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
 
         System.out.println("Este es el indice: " + indice_cliente);
 
         if(indice_cliente != -1) {
-            System.out.println("Ingrese su saldo a añadir: ");
-            int nuevo_saldo = scanner2.nextInt();
+            
+            int nuevo_saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el saldo a añadir:"));
+
             
             usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() + nuevo_saldo);
             System.out.println("Saldo agregado correctamente");
@@ -100,18 +117,15 @@ public class App {
 
 
     public static void  eliminar_saldo(ArrayList<Cliente> usuarios){
-        Scanner scanner2 = new Scanner(System.in);
+        String cedula = JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
 
-        System.out.println("Ingrese su cedula: ");
-        String cedula = scanner2.nextLine();
 
         int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
 
         System.out.println("Este es el indice: " + indice_cliente);
 
         if(indice_cliente != -1) {
-            System.out.println("Ingrese el saldo a eliminar: ");
-            int nuevo_saldo = scanner2.nextInt();
+            int nuevo_saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el saldo a eliminar:"));
             if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
                 usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
                 System.out.println("\nSaldo eliminado correctamente");
@@ -155,10 +169,9 @@ public class App {
     }
 
         public static void buscar_cliente(ArrayList<Cliente> usuarios){
-            Scanner scanner2 = new Scanner(System.in);
-    
-            System.out.println("Ingrese su nombre: ");
-            String nombre = scanner2.nextLine();
+            
+            String nombre = (JOptionPane.showInputDialog(null,"Ingrese su nombre"));
+
     
             int indice_cliente = buscar_cliente_nombre(usuarios, nombre);
     
@@ -175,17 +188,18 @@ public class App {
             
         }    
         public static void prestamo(ArrayList<Cliente> usuarios){
-            Scanner scanner2 = new Scanner(System.in);
+            
+            String cedula = JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
 
-            System.out.println("Ingrese su cedula: ");
-            String cedula = scanner2.nextLine();
     
             int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
     
     
             if(indice_cliente != -1) {
-                System.out.println("Ingrese el la cantidad de dinero del prestamo: ");
-                int nuevo_saldo = scanner2.nextInt();
+            
+                int nuevo_saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero del prestamo:"));
+
+
                 if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
                     usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
                     System.out.println("\nPrestamo enviado correctamente");
@@ -196,10 +210,6 @@ public class App {
                     System.out.println("El valor de tu cuota mensual será de: " + cuota_mensual);
                     System.out.println("Tu préstamo se pagará en " + cantidad_cuotas + " cuotas mensuales.");
 
-
-
-
-                    
                 }else{
                     System.out.println("No tienes tanto dinero");
                 }

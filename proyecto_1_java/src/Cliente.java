@@ -4,17 +4,25 @@ public class Cliente {
     private int nivel_ingresos;
     private int fecha_creacion;
     private int saldo;
+    private int duracionCDT; 
+    private double durationenAnios; 
+    private double interestotal; 
+
 
     public Cliente(){
 
     }
 
-    public Cliente(String nombre, String cedula, int nivel_ingresos, int fecha_creacion, int saldo){
+    public Cliente(String nombre, String cedula, int nivel_ingresos, int fecha_creacion, int saldo,int duracionCDT, double durationenAnios, double interestotal){
         this.nombre = nombre;
         this.cedula = cedula;
         this.nivel_ingresos = nivel_ingresos;
         this.fecha_creacion = fecha_creacion;
         this.saldo = saldo;
+        this.duracionCDT = duracionCDT;
+        this.durationenAnios = durationenAnios;
+        this.interestotal = interestotal;
+
     }
     
     public String getNombre() {
@@ -57,5 +65,30 @@ public class Cliente {
         this.saldo = saldo;
     }
 
+    public int getDuracionCDT() {
+        return duracionCDT;
+    }
+
+    public void setDuracionCDT(int duracionCDT) {
+        this.duracionCDT = duracionCDT;
+    }
+
+    public double getDurationenAnios() {
+        return durationenAnios;
+    }
+
+    public void setDurationenAnios(double durationenAnios) {
+        this.durationenAnios = durationenAnios;
+    }
+
+    public double getInterestotal() {
+        return interestotal;
+    }
+
+    public void setInterestotal(double interestotal) {
+        this.interestotal = interestotal;
+    }
+
+    
 
 }
