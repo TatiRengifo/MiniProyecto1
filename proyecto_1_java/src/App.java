@@ -195,6 +195,11 @@ public class App {
                     double cuota_mensual = nuevo_saldo * (interes_mensual * Math.pow(1 + interes_mensual, cantidad_cuotas)) / (Math.pow(1 + interes_mensual, cantidad_cuotas) - 1);
                     System.out.println("El valor de tu cuota mensual será de: " + cuota_mensual);
                     System.out.println("Tu préstamo se pagará en " + cantidad_cuotas + " cuotas mensuales.");
+
+
+
+
+                    
                 }else{
                     System.out.println("No tienes tanto dinero");
                 }
