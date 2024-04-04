@@ -15,6 +15,7 @@ public class App {
             System.out.println("4. Eliminar saldo");
             System.out.println("5. Buscar cliente por nombre y mostrar saldo");
             System.out.println("6. Solicitar prestamo");
+            System.out.println("7. Solicitar CDT");
             System.out.println("0. Salir");
             int opc = Integer.parseInt(JOptionPane.showInputDialog(null,"Introduzca una opcion: ","",1));
             switch (opc) {
@@ -24,6 +25,7 @@ public class App {
                 case 4:eliminar_saldo(usuarios);break;
                 case 5:buscar_cliente(usuarios);break;
                 case 6:prestamo(usuarios);break;
+                case 7:solicitar_CDT(usuarios);break;
                 case 0:System.out.println("\nSalida del programa");return;
                     
             
@@ -35,10 +37,8 @@ public class App {
     }
 
     public static void agregar_cliente(ArrayList<Cliente> usuarios){
-        String nombre;
 
-
-        nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
+        String nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
 
         String cedula =JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
 
@@ -47,29 +47,8 @@ public class App {
         int fecha_creacion = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su fecha de creacion"));
     
         int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
-        // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
-
-        int duracionCDT = Integer.parseInt(JOptionPane.showInputDialog(null,"Seleccione la duración del CDT (3 o 6 meses)"));
-        // Determinar la tasa de interés anual según la duración del CDT seleccionada
-    
-        double interesAnual;
-        if (duracionCDT == 3) {
-            interesAnual = 0.03; // 3%
-        } else if (duracionCDT == 6) {
-            interesAnual = 0.05; // 5%
-        // Si la duración seleccionada no es válida, mostrar un mensaje de error y salir del programa
-        } else {
-            System.out.println("Duración inválida. Por favor seleccione 3 o 6 meses.");
-            return;
-        }
-        // Convertir la duración del CDT de meses a años para calcular el interés total
-        double duracionEnAnios = duracionCDT / 12.0;
-        // Calcular el interés total ganado
-        double interestotal = saldo * interesAnual * duracionEnAnios;
-        // Mostrar el interés total ganado después de la duración del CDT seleccionada
-        System.out.println("El interés total ganado después de " + duracionCDT + " meses es: " + interestotal);
-        
-        Cliente client = new Cliente(nombre,cedula,nivel_ingresos,fecha_creacion,saldo,duracionCDT,duracionEnAnios,interestotal);
+              
+        Cliente client = new Cliente(nombre,cedula,nivel_ingresos,fecha_creacion,saldo);
         usuarios.add(client);  
         System.out.println("\nCliente agregado exitosamente!");
     }
@@ -170,27 +149,66 @@ public class App {
         } 
     }  
     public static void prestamo(ArrayList<Cliente> usuarios){
-
+            
         String cedula = JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
+
 
         int indice_cliente = buscar_cliente_cedula(usuarios, cedula);
 
 
         if(indice_cliente != -1) {
+        
             int nuevo_saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero del prestamo:"));
-            if(usuarios.get(indice_cliente).getSaldo() <= nuevo_saldo) {
+
+
+            if(usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
                 usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
                 System.out.println("\nPrestamo enviado correctamente");
-            }else if (usuarios.get(indice_cliente).getSaldo()*2 <= nuevo_saldo){
-                usuarios.get(indice_cliente).setSaldo(usuarios.get(indice_cliente).getSaldo() - nuevo_saldo);
-                System.out.println("Prestamo enviado correctamente");
-            }else if (usuarios.get(indice_cliente).getSaldo() > nuevo_saldo) {
-                nuevo_saldo *= 0.02;
-                System.out.println("Tu Prestamo se financia a 6 meses con interes del 2%. Cuotas mensuales de" + nuevo_saldo);
-            }
-        }   else{
-            System.out.println("\nEsto no es valido");
-        }
-    }
+            }else if (nuevo_saldo > usuarios.get(indice_cliente).getSaldo() && nuevo_saldo < (usuarios.get(indice_cliente).getSaldo() * 2) ) {
+                int cantidad_cuotas = 6;
+                double interes_mensual = 0.02 / 12;
+                double cuota_mensual = nuevo_saldo * (interes_mensual * Math.pow(1 + interes_mensual, cantidad_cuotas)) / (Math.pow(1 + interes_mensual, cantidad_cuotas) - 1);
+                System.out.println("El valor de tu cuota mensual será de: " + cuota_mensual);
+                System.out.println("Tu préstamo se pagará en " + cantidad_cuotas + " cuotas mensuales.");
 
+            }else{
+                System.out.println("No tienes tanto dinero");
+            }
+        } else{
+            System.out.println("\nCliente no encontrado");
+        }   
+    }
+    public static void solicitar_CDT(ArrayList<Cliente> usuarios){
+
+
+        String nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
+
+        String cedula =JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
+    
+        int nivel_ingresos = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su nivel de ingresos"));
+        
+        int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
+        // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
+    
+        int duracionCDT = Integer.parseInt(JOptionPane.showInputDialog(null,"Seleccione la duración del CDT (3 o 6 meses)"));
+        // Determinar la tasa de interés anual según la duración del CDT seleccionada
+        
+        double interesAnual = 0;
+        if (duracionCDT == 3) {
+            interesAnual = 0.03; // 3%
+        } else if (duracionCDT == 6) {
+            interesAnual = 0.05; // 5%
+        // Si la duración seleccionada no es válida, mostrar un mensaje de error y salir del programa
+        } else {
+            System.out.println("Duración inválida. Por favor seleccione 3 o 6 meses.");
+        }
+        // Convertir la duración del CDT de meses a años para calcular el interés total
+        double duracionEnAnios = duracionCDT / 12.0;
+        // Calcular el interés total ganado
+        double interestotal = saldo * interesAnual * duracionEnAnios;
+        // Mostrar el interés total ganado después de la duración del CDT seleccionada
+        System.out.println("El interés total ganado después de " + duracionCDT + " meses es: " + interestotal);
+
+
+    }
 }
