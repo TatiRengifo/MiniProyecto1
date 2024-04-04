@@ -1,2 +1,4 @@
 Integrantes:
-Tatiana
+Yulieth Tatiana Rengifo
+Pedro José López 
+Juan José Valencia
