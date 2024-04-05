@@ -179,13 +179,6 @@ public class App {
         }   
     }
     public static void solicitar_CDT(ArrayList<Cliente> usuarios){
-
-
-        String nombre = JOptionPane.showInputDialog(null,"Ingrese el nombre:");
-
-        String cedula =JOptionPane.showInputDialog(null,"Ingrese el numero de cedula:");
-    
-        int nivel_ingresos = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese su nivel de ingresos"));
         
         int saldo = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero ahorrado"));
         // Solicitar al usuario seleccionar la duración del CDT (3 o 6 meses)
